@@ -22,7 +22,6 @@ module.exports.showListing = async(req,res)=>{
   }
     res.render("listings/show",{individualList});
 }
-
 module.exports.newListing = async (req, res, next) => {
   try {
     const response = await geocodingClient
@@ -42,15 +41,14 @@ module.exports.newListing = async (req, res, next) => {
       };
     }
 
-    // ✅ Check if Mapbox returned a valid feature
+    // ✅ FIX STARTS HERE
     if (response.body.features.length > 0) {
       newList.geometry = response.body.features[0].geometry;
     } else {
-      newList.geometry = {
-        type: "Point",
-        coordinates: [0, 0], // fallback dummy location
-      };
+      req.flash("error", "Invalid location. Please try again.");
+      return res.redirect("/listings/new");
     }
+    // ✅ FIX ENDS HERE
 
     await newList.save();
     req.flash("success", "New Listing Created");
