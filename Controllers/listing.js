@@ -42,7 +42,7 @@ module.exports.newListing = async (req, res, next) => {
       };
     }
      newList.geometry = response.body.features[0].geometry;
-    const saveListing = await newList.save();
+    await newList.save();
     req.flash("success", "New Listing Created");
     res.redirect(`/listings/${newList._id}`);
   } catch (err) {

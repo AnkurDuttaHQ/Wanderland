@@ -14,7 +14,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'wanderland_dev',
     allowedFormats: ['jpeg', 'png', 'jpg'], 
-    format: async (req, file) => 'jpg',     
+     format: 'jpg',     
   },
 });
 
