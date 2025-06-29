@@ -1,0 +1,45 @@
+<% layout("/layout/boilerplate") %>
+<body>
+  <div class="row mt-3">
+    <div class="col-8 offset-2">
+      <h1>Edit Your List</h1>
+      <form method="POST" action="/listings/<%= individualList._id %>?_method=PUT" class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" name="listing[title]" value="<%= individualList.title %>" id="title" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea name="listing[description]" class="form-control" id="description" required><%= individualList.description %></textarea>
+        </div>
+
+
+        <div class="mb-3">
+          <label for="img-url" class="form-label">Image URL</label>
+          <input type="file" name="listing[image]" value="<%= individualList.image.url %>" class="form-control" id="img-url">
+        </div>
+
+
+        <div class="row">
+          <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" name="listing[price]" value="<%= individualList.price %>" class="form-control" id="price" required>
+          </div>
+
+          <div class="mb-3 col-md-8">
+            <label for="country" class="form-label">Your Country</label>
+            <input type="text" name="listing[country]" value="<%= individualList.country %>" class="form-control" id="country" required>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="lct" class="form-label">Your Location</label>
+          <input type="text" name="listing[location]" value="<%= individualList.location %>" class="form-control" id="lct" required>
+        </div>
+
+        <button class="btn btn-dark mt-3 edit-btn">Submit</button>
+      </form>
+    </div>
+  </div>
+</body>
