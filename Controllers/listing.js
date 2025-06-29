@@ -24,14 +24,14 @@ module.exports.showListing = async(req,res)=>{
 }
 
 module.exports.newListing = async (req, res, next) => {
-  const response = await geocodingClient
-  .forwardGeocode({
-    query: req.body.listing.location,
-    limit: 1
-  })
-  .send();
-  
   try {
+    const response = await geocodingClient
+      .forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1,
+      })
+      .send();
+
     const newList = new Listing(req.body.listing);
     newList.owner = req.user._id;
 
@@ -41,12 +41,22 @@ module.exports.newListing = async (req, res, next) => {
         filename: req.file.filename,
       };
     }
-     newList.geometry = response.body.features[0].geometry;
+
+    // ✅ Check if Mapbox returned a valid feature
+    if (response.body.features.length > 0) {
+      newList.geometry = response.body.features[0].geometry;
+    } else {
+      newList.geometry = {
+        type: "Point",
+        coordinates: [0, 0], // fallback dummy location
+      };
+    }
+
     await newList.save();
     req.flash("success", "New Listing Created");
     res.redirect(`/listings/${newList._id}`);
   } catch (err) {
-    console.log("❌ ERROR:", err);
+    console.log("❌ ERROR creating listing:", err.message);
     next(err);
   }
 };
