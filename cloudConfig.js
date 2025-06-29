@@ -1,4 +1,4 @@
-const cloudinary = require('cloudinary').v2; // ✅ v2 is required
+const cloudinary = require('cloudinary'); // ✅ v2 is required
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // Cloudinary Configuration
